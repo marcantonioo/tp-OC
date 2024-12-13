@@ -2,6 +2,7 @@
 #define ram_h
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 typedef struct Ram{
     int *memoria;
@@ -11,6 +12,8 @@ typedef struct Ram{
 Ram* iniciaRam();
 
 void liberaRam(Ram *a);
+
+void liberaMemoria(Ram *a);
 
 Ram* criaRam(Ram *a, int tamanho);
 

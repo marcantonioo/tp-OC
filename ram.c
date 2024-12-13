@@ -1,7 +1,4 @@
 #include "ram.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 
 Ram* iniciaRam(){
     Ram *a = malloc(sizeof(Ram));
@@ -9,8 +6,11 @@ Ram* iniciaRam(){
 }
 
 void liberaRam(Ram *a){
-    free(a->memoria);
     free(a);
+}
+
+void liberaMemoria(Ram *a){
+    free(a->memoria);
 }
 
 Ram* criaRam(Ram *a, int tamanho){
@@ -28,7 +28,7 @@ Ram* criaRamVazia(Ram *a, int tamanho){
 
 Ram* criaRamAleatoria(Ram *a, int tamanho){
     srand(time(NULL));
-    Ram *ram = criaRam(ram, tamanho);
+    Ram *ram = criaRam(a, tamanho);
     for(int i = 0; i<tamanho; i++)
         ram->memoria[i] = rand();
     return ram;
@@ -45,7 +45,7 @@ int getDado(Ram *ram, int endereco){
 }
 
 void imprimir(Ram *ram){
-    printf("Conteudo da RAM ");
+    printf("Conteudo da RAM\n");
     for(int i = 0; i<ram->tamanho; i++)
         printf("%d, ",ram->memoria[i]);
     printf("\n");
