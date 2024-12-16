@@ -6,6 +6,8 @@ int **criaMatriz(int tam);
 void liberaMatriz(int **a, int tam);
 void programaFat(Ram *ram, CPU *cpu, int fat);
 void programaDiv(Ram *ram, CPU *cpu, int dividendo, int divisor);
+void programaFatorialDuplo(Ram *ram, CPU *cpu, int n);
+void programaPA(Ram *ram, CPU *cpu, int primeiroTermo, int razao, int numTermos);
 
 int main(){
     Ram *ram = iniciaRam();
@@ -14,12 +16,92 @@ int main(){
     //programaMult(ram, cpu, 20, 4);
     //programaSomaMatriz(ram, cpu, 3);
     //programaFat(ram, cpu, 10);
-    programaDiv(ram, cpu, 16, 2);
+    //programaDiv(ram, cpu, 16, 2);
+    //programaFatorialDuplo(ram, cpu, 8);
+    programaPA(ram, cpu, 1, 2, 10);
 
     liberaCPU(cpu);
     liberaRam(ram);
     return 0;
 }
+
+void programaPA(Ram *ram, CPU *cpu, int primeiroTermo, int razao, int numTermos) {
+    // Inicializa RAM com espaço para todos os termos da PA
+    criaRamVazia(ram, 2);
+
+    // Aloca espaço para o programa de instruções
+    Instrucao *trecho1 = malloc(3 * sizeof(Instrucao));
+    
+
+    // Passo 1: Carrega o primeiro termo
+    trecho1[0] = defineInstrucao(4, 1, primeiroTermo, -1);  // Reg1 = primeiroTermo
+    trecho1[1] = defineInstrucao(2, 1, 0, -1);              // RAM[0] = Reg1
+    trecho1[2] = defineInstrucao(-1, -1, -1, -1);
+    setPrograma(cpu, trecho1);
+    iniciar(ram, cpu);
+
+
+    // Passo 2: Calcula termos subsequentes
+    for (int i = 1; i < numTermos; i++) {
+        Instrucao *trecho2 = malloc(6 * sizeof(Instrucao));
+        trecho2[0] = defineInstrucao(3, 1, 0, -1);          // Reg1 = RAM[0]
+        trecho2[1] = defineInstrucao(4, 2, razao, -1);      // Reg2 = razao
+        trecho2[2] = defineInstrucao(2, 2, 1, -1);
+        trecho2[3] = defineInstrucao(0, 0, 1, 1);           // Reg1 = Reg1 + Reg2
+        trecho2[4] = defineInstrucao(2, 1, 0, -1);          // RAM[i] = Reg1
+        trecho2[5] = defineInstrucao(-1, -1, -1, -1);
+        setPrograma(cpu, trecho2);
+        iniciar(ram, cpu);
+    }
+
+    printf("O último termo da PA é: %d\n", cpu->registrador1);
+
+    liberaMemoria(ram);
+}
+
+
+void programaFatorialDuplo(Ram *ram, CPU *cpu, int n) {
+    // Inicializa a RAM e os registradores
+    criaRamVazia(ram, 2);
+
+    //ram->memoria = NULL;
+
+    // Passo 1: Carrega o valor inicial do acumulador como 1 no registrador 2
+    Instrucao *inicializa = malloc(2 * sizeof(Instrucao));
+    inicializa[0] = defineInstrucao(4, 2, 1, -1);  // Registrador2 = 1 (acumulador)
+    inicializa[1] = defineInstrucao(-1, -1, -1, -1);  // Halt
+    setPrograma(cpu, inicializa);
+    iniciar(ram, cpu);
+
+    liberaMemoria(ram);
+    // Passo 2: Loop para calcular o fatorial duplo
+    while (n > 0) {
+        // Multiplica o acumulador pelo valor atual de n
+        programaMult(ram, cpu, cpu->registrador2, n);
+
+        // Atualiza o acumulador com o resultado da multiplicação
+        Instrucao *atualizaAcumulador = malloc(3 * sizeof(Instrucao));
+        atualizaAcumulador[0] = defineInstrucao(2, 1, 0, -1);
+        atualizaAcumulador[1] = defineInstrucao(3, 2, 0, -1);
+        atualizaAcumulador[2] = defineInstrucao(-1, -1, -1, -1);  // Halt
+        setPrograma(cpu, atualizaAcumulador);
+        iniciar(ram, cpu);
+
+        //cpu->registrador2 = cpu->registrador1;  // Atualiza o acumulador no Registrador2
+
+        liberaMemoria(ram);
+
+        // Decrementa n em 2
+        n -= 2;
+    }
+
+    // Passo 3: Exibe o resultado armazenado no acumulador (registrador 2)
+    printf("O resultado do fatorial duplo eh: %d\n", cpu->registrador2);
+
+    // Libera memória usada na RAM
+    //liberaRam(ram);
+}
+
 
 int **criaMatriz(int tam){
     int **matriz = malloc(tam * sizeof(int*));
