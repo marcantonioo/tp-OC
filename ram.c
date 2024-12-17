@@ -6,11 +6,14 @@ Ram* iniciaRam(){
 }
 
 void liberaRam(Ram *a){
+    if(a->memoria != NULL)
+        liberaMemoria(a);
     free(a);
 }
 
 void liberaMemoria(Ram *a){
     free(a->memoria);
+    a->memoria = NULL;
 }
 
 Ram* criaRam(Ram *a, int tamanho){
