@@ -25,7 +25,7 @@ int main(){
     //programaPA(ram, cpu, 1, 2, 10);
     //programaFibonacci(ram, cpu, 10);
     //programaExpo(ram, cpu, 3, 3);
-    cels_kelv(ram, cpu, 2, 273);
+    //cels_kelv(ram, cpu, 2, 273);
 
     liberaCPU(cpu);
     liberaRam(ram);
