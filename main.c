@@ -10,6 +10,7 @@ void programaFatorialDuplo(Ram *ram, CPU *cpu, int n);
 void programaPA(Ram *ram, CPU *cpu, int primeiroTermo, int razao, int numTermos);
 void programaFibonacci(Ram *ram, CPU *cpu, int n);
 void programaExpo(Ram *ram, CPU *cpu, int base, int expoente);
+void cels_kelv (Ram *ram, CPU *cpu, int t, int tK);
 
 
 int main(){
@@ -24,6 +25,7 @@ int main(){
     //programaPA(ram, cpu, 1, 2, 10);
     //programaFibonacci(ram, cpu, 10);
     //programaExpo(ram, cpu, 3, 3);
+    //cels_kelv(ram, cpu, 2, 273);
 
     liberaCPU(cpu);
     liberaRam(ram);
@@ -60,6 +62,41 @@ void programaExpo(Ram *ram, CPU *cpu, int base, int expoente) {
 
 
     printf("O valor da exponenciação é: %d\n", cpu->registrador1);
+}
+
+void cels_kelv (Ram *ram, CPU *cpu, int t, int tK){
+    criaRamVazia(ram, 2);
+    
+    Instrucao* trecho1 = (Instrucao*) malloc(5 * sizeof(Instrucao));
+    trecho1[0] = defineInstrucao(4, 1, tK, -1);
+    trecho1[1] = defineInstrucao(4, 2, t, -1);
+    trecho1[2] = defineInstrucao(2, 1, 0, -1);
+    trecho1[3] = defineInstrucao(2, 2, 1, -1);
+    trecho1[4] = defineInstrucao(-1, -1, -1, -1);
+    
+    printf("\n%d\n\n", cpu->registrador2);
+
+    setPrograma(cpu, trecho1);
+    iniciar(ram, cpu);
+
+    Instrucao * trecho2 = (Instrucao*) malloc(2 * sizeof(Instrucao));
+    trecho2[0] = defineInstrucao(0, 0, 1, 0);
+    trecho2[1] = defineInstrucao(-1, -1, -1, -1);
+    
+    setPrograma(cpu, trecho2);
+    iniciar(ram, cpu);
+    
+    printf("%d graus celsius em kelvin: %d\n", cpu->registrador2, cpu->registrador1);
+
+
+        //executar instrucao
+		//-1 -> halt
+		// 0 -> soma
+		// 1 -> subtrai
+		// 2 -> copia do registrador para RAM
+		// 3 -> copia da RAM para o registrador
+		// 4 -> salva conteudo externo no registrador
+		// 5 -> obtem conteudo externo do registrador
 }
 
 void programaFibonacci(Ram *ram, CPU *cpu, int n) {
