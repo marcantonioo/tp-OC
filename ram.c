@@ -2,6 +2,7 @@
 
 Ram* iniciaRam(){
     Ram *a = malloc(sizeof(Ram));
+    a->memoria = NULL;
     return a;
 }
 
