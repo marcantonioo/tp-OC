@@ -25,7 +25,7 @@ int main(){
     //programaPA(ram, cpu, 1, 2, 10);
     //programaFibonacci(ram, cpu, 10);
     //programaExpo(ram, cpu, 3, 3);
-    //cels_kelv(ram, cpu, 2, 273);
+    cels_kelv(ram, cpu, 2, 273);
 
     liberaCPU(cpu);
     liberaRam(ram);
@@ -73,8 +73,6 @@ void cels_kelv (Ram *ram, CPU *cpu, int t, int tK){
     trecho1[2] = defineInstrucao(2, 1, 0, -1);
     trecho1[3] = defineInstrucao(2, 2, 1, -1);
     trecho1[4] = defineInstrucao(-1, -1, -1, -1);
-    
-    printf("\n%d\n\n", cpu->registrador2);
 
     setPrograma(cpu, trecho1);
     iniciar(ram, cpu);
