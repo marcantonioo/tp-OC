@@ -195,30 +195,28 @@ void programaBhaskara(CPU *cpu, int a, int b, int c){
 void programaRaiz(CPU *cpu, int numero) {
     Ram *ram = criaRamVazia(3);
 
-    // Inicialização
-    Instrucao *inicializa = malloc(7 * sizeof(Instrucao));
-    inicializa[0] = defineInstrucao(4, 1, numero, -1); // Carrega o número no registrador1
-    inicializa[1] = defineInstrucao(4, 2, 1, -1);     // Carrega 1 (primeiro número ímpar) no registrador2
-    inicializa[2] = defineInstrucao(2, 1, 0, -1);
-    inicializa[3] = defineInstrucao(2, 2, 1, -1);
-    inicializa[4] = defineInstrucao(4, 1, 2, -1);
-    inicializa[5] = defineInstrucao(2, 1, 2, -1);
-    inicializa[6] = defineInstrucao(-1, -1, -1, -1);
+    Instrucao *trecho1 = malloc(7 * sizeof(Instrucao));
+    trecho1[0] = defineInstrucao(4, 1, numero, -1); 
+    trecho1[1] = defineInstrucao(4, 2, 1, -1);     
+    trecho1[2] = defineInstrucao(2, 1, 0, -1);
+    trecho1[3] = defineInstrucao(2, 2, 1, -1);
+    trecho1[4] = defineInstrucao(4, 1, 2, -1);
+    trecho1[5] = defineInstrucao(2, 1, 2, -1);
+    trecho1[6] = defineInstrucao(-1, -1, -1, -1);
 
-    setPrograma(cpu, inicializa);
+    setPrograma(cpu, trecho1);
     iniciar(ram, cpu);
 
     int cont = 0;
-    // Loop para subtrair sucessivamente números ímpares
-    while (cpu->registrador1 >= 0) { // Continua enquanto o número for >= 0
+    while (cpu->registrador1 >= 0) {
 
-        Instrucao *atualiza = malloc(4 * sizeof(Instrucao));
-        atualiza[0] = defineInstrucao(1, 0, 1, 0);
-        atualiza[1] = defineInstrucao(0, 1, 2, 1);
-        atualiza[2] = defineInstrucao(3, 1, 0, -1);
-        atualiza[3] = defineInstrucao(-1, -1, -1, -1);
+        Instrucao *trecho2 = malloc(4 * sizeof(Instrucao));
+        trecho2[0] = defineInstrucao(1, 0, 1, 0);
+        trecho2[1] = defineInstrucao(0, 1, 2, 1);
+        trecho2[2] = defineInstrucao(3, 1, 0, -1);
+        trecho2[3] = defineInstrucao(-1, -1, -1, -1);
 
-        setPrograma(cpu, atualiza);
+        setPrograma(cpu, trecho2);
         iniciar(ram, cpu);
 
         if (cpu->registrador1 >= 0) {
@@ -317,25 +315,25 @@ void programaFibonacci(CPU *cpu, int n) {
 
     Ram *ram = criaRamVazia(2); 
 
-    Instrucao *inicializa = malloc(5 * sizeof(Instrucao));
-    inicializa[0] = defineInstrucao(4, 1, 0, -1);
-    inicializa[1] = defineInstrucao(4, 2, 1, -1); 
-    inicializa[2] = defineInstrucao(2, 1, 0, -1);
-    inicializa[3] = defineInstrucao(2, 2, 1, -1);
-    inicializa[4] = defineInstrucao(-1, -1, -1, -1);
+    Instrucao *trecho1 = malloc(5 * sizeof(Instrucao));
+    trecho1[0] = defineInstrucao(4, 1, 0, -1);
+    trecho1[1] = defineInstrucao(4, 2, 1, -1); 
+    trecho1[2] = defineInstrucao(2, 1, 0, -1);
+    trecho1[3] = defineInstrucao(2, 2, 1, -1);
+    trecho1[4] = defineInstrucao(-1, -1, -1, -1);
 
-    setPrograma(cpu, inicializa);
+    setPrograma(cpu, trecho1);
     iniciar(ram, cpu);
 
     for (int i = 2; i <= n; i++) {
-        Instrucao *passo = malloc(6 * sizeof(Instrucao));
-        passo[0] = defineInstrucao(0, 0, 1, 0);
-        passo[1] = defineInstrucao(3, 2, 0, -1);
-        passo[2] = defineInstrucao(3, 1, 1, -1);
-        passo[3] = defineInstrucao(2, 2, 1, -1);
-        passo[4] = defineInstrucao(2, 1, 0, -1);
-        passo[5] = defineInstrucao(-1, -1, -1, -1);
-        setPrograma(cpu, passo);
+        Instrucao *trecho2 = malloc(6 * sizeof(Instrucao));
+        trecho2[0] = defineInstrucao(0, 0, 1, 0);
+        trecho2[1] = defineInstrucao(3, 2, 0, -1);
+        trecho2[2] = defineInstrucao(3, 1, 1, -1);
+        trecho2[3] = defineInstrucao(2, 2, 1, -1);
+        trecho2[4] = defineInstrucao(2, 1, 0, -1);
+        trecho2[5] = defineInstrucao(-1, -1, -1, -1);
+        setPrograma(cpu, trecho2);
         iniciar(ram, cpu);
     }
 

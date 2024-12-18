@@ -16,11 +16,11 @@ int main(){
     //programaFatorialDuplo(cpu, 8); 
     //programaPA(cpu, 0, 2, 10);
     //programaFibonacci(cpu, 10);
-    //programaExpo(cpu, 0, 3);
+    //programaExpo(cpu, 2, 3);
     //programaRaiz(cpu, 15);
     //programaBhaskara(cpu, 1, -5, 6);  //1, -6, 9;   1, -5, 6
     //cels_kelv (cpu, 2, 273);
-    programaDistancia(cpu, 1, 9, 1, 9);
+    //programaDistancia(cpu, 1, 9, 1, 9);
 
     liberaCPU(cpu);
     liberaRam(ram);
