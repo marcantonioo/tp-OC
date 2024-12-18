@@ -545,6 +545,12 @@ void programaMult(CPU *cpu, int multiplicando, int multiplicador){
     
     Ram *ram = criaRamVazia(2);
     
+    int confirm = 0;
+    if(multiplicador<0){
+        confirm = 1;
+        multiplicador = multiplicador * -1;
+    }
+    
     Instrucao *trecho1 = malloc(3*sizeof(Instrucao));
     Instrucao inst0 = defineInstrucao(4, 1, multiplicando, -1);
     trecho1[0] = inst0;
@@ -583,6 +589,9 @@ void programaMult(CPU *cpu, int multiplicando, int multiplicador){
 
     setPrograma(cpu, trecho3);
     iniciar(ram, cpu);
+
+    if(confirm)
+        cpu->registrador1 *= -1;
 
     printf("O resultado da multiplicação eh: %d\n",cpu->registrador1);
     liberaRam(ram);
