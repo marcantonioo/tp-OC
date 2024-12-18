@@ -31,4 +31,6 @@ void programaRaiz(CPU *cpu, int numero);
 
 void programaBhaskara(CPU *cpu, int a, int b, int c);
 
+void programaDistancia(CPU *cpu, int x1, int y1, int x2, int y2);
+
 #endif

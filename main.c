@@ -8,18 +8,19 @@ int main(){
     //programaMult(cpu, -20, -1);
     //programaSomaMatriz(cpu, 3);
     //programaFat(cpu, 4);
-    //programaDiv(cpu, -16, 2);
+    //programaDiv(cpu, 16, 2);
     
     //programaSoma(cpu, 2, 6);
     //programaSub(cpu, 2, 2);
 
     //programaFatorialDuplo(cpu, 8); 
-    //programaPA(cpu, 1, 2, 10);
+    //programaPA(cpu, 0, 2, 10);
     //programaFibonacci(cpu, 10);
-    //programaExpo(cpu, 3, 3);
+    //programaExpo(cpu, 0, 3);
     //programaRaiz(cpu, 15);
-    //programaBhaskara(cpu, 2, 3, 1);
+    //programaBhaskara(cpu, 1, -5, 6);  //1, -6, 9;   1, -5, 6
     //cels_kelv (cpu, 2, 273);
+    programaDistancia(cpu, 1, 9, 1, 9);
 
     liberaCPU(cpu);
     liberaRam(ram);

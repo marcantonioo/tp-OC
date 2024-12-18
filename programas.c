@@ -1,5 +1,70 @@
 #include "programas.h"
 
+void programaDistancia(CPU *cpu, int x1, int y1, int x2, int y2){
+    Ram *ram = criaRamVazia(4);
+
+    //Ram[0] = x1, ram[1] = y1, ram[2] = x2, ram[3] = y2;
+    Instrucao *trecho1 = malloc(9 * sizeof(Instrucao));
+    trecho1[0] = defineInstrucao(4, 1, x1, -1);
+    trecho1[1] = defineInstrucao(2, 1, 0, -1);
+    trecho1[2] = defineInstrucao(4, 1, y1, -1);
+    trecho1[3] = defineInstrucao(2, 1, 1, -1);
+    trecho1[4] = defineInstrucao(4, 1, x2, -1);
+    trecho1[5] = defineInstrucao(2, 1, 2, -1);
+    trecho1[6] = defineInstrucao(4, 1, y2, -1);
+    trecho1[7] = defineInstrucao(2, 1, 3, -1);
+    trecho1[8] = defineInstrucao(-1, -1, -1, -1);
+    setPrograma(cpu, trecho1);
+    iniciar(ram, cpu);
+
+    //reg1 = x1, reg2 = x2
+    Instrucao *trecho2 = malloc(3 * sizeof(Instrucao));
+    trecho2[0] = defineInstrucao(3, 1, 0, -1);
+    trecho2[1] = defineInstrucao(3, 2, 2, -1);
+    trecho2[2] = defineInstrucao(-1, -1, -1, -1);
+    setPrograma(cpu, trecho2);
+    iniciar(ram, cpu);
+
+    //reg1 = (x1 - x2)^2
+    programaSub(cpu, cpu->registrador1, cpu->registrador2);
+    programaExpo(cpu, cpu->registrador1, 2);
+
+    //ram[0] = (x1 - x2)^2
+    Instrucao *trecho3 = malloc(2 * sizeof(Instrucao));
+    trecho3[0] = defineInstrucao(2, 1, 0, -1);
+    trecho3[1] = defineInstrucao(-1, -1, -1, -1);
+    setPrograma(cpu, trecho3);
+    iniciar(ram, cpu);
+
+    //reg1 = y1, reg2 = y2
+    Instrucao *trecho4 = malloc(3 * sizeof(Instrucao));
+    trecho4[0] = defineInstrucao(3, 1, 1, -1);
+    trecho4[1] = defineInstrucao(3, 2, 3, -1);
+    trecho4[2] = defineInstrucao(-1, -1, -1, -1);
+    setPrograma(cpu, trecho4);
+    iniciar(ram, cpu);
+
+    //reg1 = (y1 - y2)^2
+    programaSub(cpu, cpu->registrador1, cpu->registrador2);
+    programaExpo(cpu, cpu->registrador1, 2);
+
+    //ram[1] = (y1 - y2)^2; reg2 = (x1 - x2)^2
+    Instrucao *trecho5 = malloc(3 * sizeof(Instrucao));
+    trecho5[0] = defineInstrucao(2, 1, 1, -1);
+    trecho5[1] = defineInstrucao(3, 2, 0, -1);
+    trecho5[2] = defineInstrucao(-1, -1, -1, -1);
+    setPrograma(cpu, trecho5);
+    iniciar(ram, cpu);
+
+    //reg1 = distancia
+    programaSoma(cpu, cpu->registrador1, cpu->registrador2);
+    programaRaiz(cpu, cpu->registrador1);
+
+    printf("A distancia entre(%d, %d) e (%d, %d) é: %d\n", x1, y1, x2 ,y2, cpu->registrador1);
+    liberaRam(ram);
+
+}
+
 void cels_kelv (CPU *cpu, int t, int tK){
     Ram *ram = criaRamVazia(2);
     
@@ -548,9 +613,9 @@ void programaMult(CPU *cpu, int multiplicando, int multiplicador){
     int confirm = 0;
     if(multiplicador<0){
         confirm = 1;
-        multiplicador = multiplicador * -1;
+        multiplicador *= -1;
     }
-    
+
     Instrucao *trecho1 = malloc(3*sizeof(Instrucao));
     Instrucao inst0 = defineInstrucao(4, 1, multiplicando, -1);
     trecho1[0] = inst0;
