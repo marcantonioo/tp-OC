@@ -15,11 +15,11 @@ void liberaRam(Ram *a);
 
 void liberaMemoria(Ram *a);
 
-Ram* criaRam(Ram *a, int tamanho);
+Ram* criaRam(int tamanho);
 
-Ram* criaRamVazia(Ram *a, int tamanho);
+Ram* criaRamVazia(int tamanho);
 
-Ram* criaRamAleatoria(Ram *a, int tamanho);
+Ram* criaRamAleatoria(int tamanho);
 
 void setDado(Ram *ram, int endereco, int conteudo);
 
